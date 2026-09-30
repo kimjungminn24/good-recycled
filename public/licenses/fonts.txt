@@ -1,0 +1,8 @@
+Galmuri — https://github.com/quiple/galmuri
+Copyright © 2019–2025 Lee Minseo (quiple@quiple.dev)
+
+Galmuri is distributed under the SIL Open Font License 1.1.
+See Galmuri-OFL.txt in this directory.
+
+This project uses the unmodified Galmuri11 and Galmuri11 Bold WOFF2 files
+from the official galmuri 2.40.3 npm distribution.

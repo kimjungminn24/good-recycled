@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+    <meta name="theme-color" content="#eeede5" />
+    <title>한 바퀴</title>
+    <link rel="preload" href="/src/assets/fonts/Galmuri11.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/src/assets/fonts/Galmuri11-Bold.woff2" as="font" type="font/woff2" crossorigin />
+  </head>
+  <body>
+    <main class="workspace">
+      <section class="game-panel" aria-label="한 바퀴 게임">
+        <div class="game-stage">
+          <div class="game-tools">
+            <button id="help-open" class="game-tool game-help" type="button" aria-label="게임 방법">?</button>
+          </div>
+          <canvas id="game" tabindex="0" aria-label="한 바퀴 게임. 좌우 방향키로 위치를 정하고 스페이스 또는 엔터로 떨어뜨리세요."></canvas>
+          <button id="start" class="game-button" type="button">시작하기 <span aria-hidden="true">↗</span></button>
+          <button id="restart" class="game-button" type="button" hidden>다시 하기 <span aria-hidden="true">↻</span></button>
+          <a id="products" class="game-link" href="https://kociri.or.kr/businessArea/prodsearchList.do" target="_blank" rel="noopener noreferrer" hidden>GR 제품 보기 <span aria-hidden="true">↗</span></a>
+        </div>
+      </section>
+    </main>
+    <dialog id="help-dialog" aria-labelledby="help-title">
+      <button id="help-close" class="dialog-close" type="button" aria-label="게임 방법 닫기">×</button>
+      <h1 id="help-title">게임 방법</h1>
+      <ol class="help-rules">
+        <li>좌우로 위치를 정하고 손을 떼면 제품이 떨어집니다.</li>
+        <li>같은 제품 두 개가 만나면 다음 단계로 합쳐집니다.</li>
+        <li>제품이 점선을 넘은 채로 쌓이면 게임이 끝납니다.</li>
+      </ol>
+      <p class="help-keys">키보드: ← → 이동 · 스페이스 떨어뜨리기</p>
+    </dialog>
+    <dialog id="success-dialog" class="success-dialog" aria-labelledby="success-title" tabindex="-1">
+      <button id="success-close" class="dialog-close" type="button" aria-label="성공 화면 닫고 계속 플레이">×</button>
+      <div class="success-transform">
+        <img src="/src/assets/stages/01-waste-tire.png" alt="폐타이어" />
+        <span aria-hidden="true">→</span>
+        <img src="/src/assets/stages/07-retread-tire.png" alt="새롭게 재생된 트레드 타이어" />
+      </div>
+      <h1 id="success-title">자원순환 성공!</h1>
+      <section class="success-gr" aria-labelledby="success-gr-title">
+        <h2 id="success-gr-title">게임에서 만난 GR 제품</h2>
+        <ul id="success-products"></ul>
+        <a class="success-link" href="https://kociri.or.kr/businessArea/prodsearchList.do" target="_blank" rel="noopener noreferrer">GR 인증 제품 더 알아보기 <span aria-hidden="true">↗</span></a>
+      </section>
+      <button id="success-continue" class="primary-button" type="button">계속 플레이</button>
+    </dialog>
+    <p id="game-status" class="sr-only" role="status" aria-live="polite"></p>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
