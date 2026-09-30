@@ -10,6 +10,7 @@ const startButton = document.querySelector<HTMLButtonElement>('#start')!;
 const restartButton = document.querySelector<HTMLButtonElement>('#restart')!;
 const productsLink = document.querySelector<HTMLAnchorElement>('#products')!;
 const status = document.querySelector<HTMLParagraphElement>('#game-status')!;
+const celebration = document.querySelector<HTMLDivElement>('#celebration')!;
 const ctx = canvas.getContext('2d')!;
 const game = new Game();
 game.best = loadBest();
@@ -31,8 +32,42 @@ for (const product of STAGES.slice(1)) {
 function openSuccess() {
   activePointer = undefined;
   game.paused = true;
+  celebration.hidden = true;
   successDialog.showModal();
   successDialog.focus({ preventScroll: true });
+}
+
+function celebrateSuccess() {
+  activePointer = undefined;
+  game.paused = true;
+  celebration.replaceChildren();
+  celebration.hidden = false;
+
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const colors = ['#d45d32', '#f1c94d', '#6b9257', '#f8f6ee', '#74a6a1'];
+  const origins = [[20, 39], [50, 27], [80, 41]];
+  const particleCount = reducedMotion ? 8 : 20;
+
+  for (const [burstIndex, [x, y]] of origins.entries()) {
+    for (let i = 0; i < particleCount; i += 1) {
+      const particle = document.createElement('i');
+      const angle = (Math.PI * 2 * i) / particleCount + burstIndex * 0.35;
+      const distance = 42 + (i % 5) * 9;
+      particle.style.setProperty('--x', `${x}%`);
+      particle.style.setProperty('--y', `${y}%`);
+      particle.style.setProperty('--tx', `${Math.cos(angle) * distance}px`);
+      particle.style.setProperty('--ty', `${Math.sin(angle) * distance}px`);
+      particle.style.setProperty('--delay', `${burstIndex * 180 + (i % 4) * 24}ms`);
+      particle.style.setProperty('--color', colors[(i + burstIndex) % colors.length]);
+      particle.style.setProperty('--size', `${4 + (i % 3) * 2}px`);
+      celebration.append(particle);
+    }
+  }
+
+  const message = document.createElement('strong');
+  message.textContent = '자원순환 성공!';
+  celebration.append(message);
+  window.setTimeout(openSuccess, reducedMotion ? 900 : 2200);
 }
 
 successContinueButton.addEventListener('click', () => successDialog.close());
@@ -178,7 +213,7 @@ function frame(t: number) {
   last = t;
   if (game.finalReached && !successPrompted) {
     successPrompted = true;
-    openSuccess();
+    celebrateSuccess();
   }
   if (!wasOver && game.over) saveBest(game.best);
   syncControls();

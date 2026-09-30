@@ -143,6 +143,97 @@ canvas:focus-visible {
   outline-offset: -3px;
 }
 
+.celebration {
+  position: absolute;
+  z-index: 4;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background: #172a2326;
+  animation: celebration-flash 2.2s steps(2, end) both;
+}
+
+.celebration i {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: var(--size);
+  height: var(--size);
+  background: var(--color);
+  box-shadow: 2px 2px 0 #172a2359;
+  opacity: 0;
+  animation: pixel-firework 1.15s steps(8, end) var(--delay) both;
+}
+
+.celebration strong {
+  position: absolute;
+  left: 50%;
+  top: 53%;
+  min-width: 78%;
+  padding: 14px 10px 12px;
+  border: 3px solid #172a23;
+  background: #f8f6ee;
+  color: #263f34;
+  box-shadow: 6px 6px 0 #91a079;
+  font: 400 calc(22px * var(--game-scale, 1)) var(--font-display);
+  text-align: center;
+  transform: translate(-50%, -50%);
+  animation: success-pop 2.2s steps(5, end) both;
+}
+
+@keyframes pixel-firework {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0) scale(0);
+  }
+  12% {
+    opacity: 1;
+    transform: translate(0, 0) scale(1.4);
+  }
+  75% {
+    opacity: 1;
+    transform: translate(var(--tx), var(--ty)) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(var(--tx), calc(var(--ty) + 30px)) scale(.5);
+  }
+}
+
+@keyframes success-pop {
+  0%, 25% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(.7);
+  }
+  38%, 88% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(1.04);
+  }
+}
+
+@keyframes celebration-flash {
+  0%, 100% { background: #172a2326; }
+  20% { background: #f1c94d24; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .celebration {
+    animation-duration: .9s;
+  }
+
+  .celebration i {
+    animation-duration: .7s;
+  }
+
+  .celebration strong {
+    animation-duration: .9s;
+  }
+}
+
 .game-button, .game-link {
   position: absolute;
   align-items: center;
